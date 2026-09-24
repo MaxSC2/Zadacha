@@ -1,0 +1,56 @@
+<mxfile host="app.diagrams.net" modified="2026-09-23T00:00:00.000Z" agent="GLM" version="24.0.0">
+  <diagram id="hospital-uml" name="Диаграмма классов Больница">
+    <mxGraphModel dx="1422" dy="798" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="z1" value="Зона 1. Иерархия персон (обобщение)" style="rounded=1;fillColor=#E7F4EC;strokeColor=#1b7a43;verticalAlign=top;fontStyle=1;fontColor=#1b7a43;" vertex="1" parent="1">
+          <mxGeometry x="30" y="470" width="1050" height="720" as="geometry" />
+        </mxCell>
+        <mxCell id="z2" value="Зона 2. Организационная структура" style="rounded=1;fillColor=#E8EFF8;strokeColor=#1f5fa8;verticalAlign=top;fontStyle=1;fontColor=#1f5fa8;" vertex="1" parent="1">
+          <mxGeometry x="1110" y="470" width="520" height="720" as="geometry" />
+        </mxCell>
+        <mxCell id="z3" value="Зона 3. Медицинский процесс (приём и карта)" style="rounded=1;fillColor=#FAF3E3;strokeColor=#b07818;verticalAlign=top;fontStyle=1;fontColor=#b07818;" vertex="1" parent="1">
+          <mxGeometry x="30" y="120" width="1600" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="c-person" value="Человек {абстрактный}&#10;--&#10;# фио: строка&#10;# датаРождения: дата&#10;# телефон: строка&#10;--&#10;+ получитьВозраст(): число&#10;+ получитьКонтакты(): строка" style="swimlane;fontStyle=1;fillColor=#ffffff;strokeColor=#1b7a43;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=0;" vertex="1" parent="1">
+          <mxGeometry x="400" y="500" width="440" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="c-patient" value="Пациент&#10;--&#10;- полисОМС: строка&#10;- карта: МедицинскаяКарта&#10;--&#10;+ завестиКарту(карта)&#10;+ записатьсяНаПриём(врач, дата): Приём&#10;+ отменитьЗапись(приём, причина)&#10;+ получитьИсторию(): список" style="swimlane;fontStyle=1;fillColor=#ffffff;strokeColor=#1b7a43;align=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="50" y="570" width="430" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="c-mstaff" value="МедицинскийПерсонал {абстрактный}&#10;--&#10;# табельныйНомер: строка&#10;# стажЛет: число&#10;--&#10;+ получитьИнформацию(): строка {абстрактный}" style="swimlane;fontStyle=1;fillColor=#ffffff;strokeColor=#1b7a43;align=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="560" y="810" width="480" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="c-doctor" value="Врач&#10;--&#10;- специальность&#10;- категория&#10;- приёмы: список&#10;--&#10;+ получитьИнформацию()&#10;+ провестиПриём(приём, диагноз, назначения)" style="swimlane;fontStyle=1;fillColor=#ffffff;strokeColor=#1b7a43;align=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="530" y="1010" width="270" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="c-nurse" value="Медсестра&#10;--&#10;- профиль&#10;- смена&#10;--&#10;+ получитьИнформацию()&#10;+ подготовитьКабинет(отделение)&#10;+ сопроводитьПациента(пациент)" style="swimlane;fontStyle=1;fillColor=#ffffff;strokeColor=#1b7a43;align=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="820" y="1010" width="240" height="185" as="geometry" />
+        </mxCell>
+        <mxCell id="c-hospital" value="Больница&#10;--&#10;- название: строка&#10;- адрес: строка&#10;- отделения: список&#10;--&#10;+ добавитьОтделение(название, расположение): Отделение&#10;+ найтиВрачей(специальность)&#10;+ получитьСтатистику(): словарь" style="swimlane;fontStyle=1;fillColor=#ffffff;strokeColor=#1f5fa8;align=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="1140" y="500" width="460" height="225" as="geometry" />
+        </mxCell>
+        <mxCell id="c-dept" value="Отделение&#10;--&#10;- название: строка&#10;- расположение: строка&#10;- персонал: список&#10;--&#10;+ закрепитьСотрудника(сотрудник)&#10;+ получитьРасписание(): список" style="swimlane;fontStyle=1;fillColor=#ffffff;strokeColor=#1f5fa8;align=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="1140" y="920" width="460" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="c-card" value="МедицинскаяКарта&#10;--&#10;- номер: строка&#10;- датаЗаведения: дата&#10;- записи: список&#10;--&#10;+ добавитьЗапись(приём)&#10;+ получитьИсторию(): список" style="swimlane;fontStyle=1;fillColor=#ffffff;strokeColor=#b07818;align=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="80" y="180" width="480" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="c-appt" value="Приём&#10;--&#10;- датаВремя: дата и время&#10;- статус: строка&#10;- диагноз: строка&#10;- назначения: строка&#10;--&#10;+ перенести(новоеВремя)&#10;+ завершить(диагноз, назначения)&#10;+ отменить(причина)&#10;+ описать(): строка" style="swimlane;fontStyle=1;fillColor=#ffffff;strokeColor=#b07818;align=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="740" y="150" width="600" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="e-g1" style="endArrow=block;endFill=0;endSize=14;strokeColor=#1b7a43;" edge="1" parent="1" source="c-patient" target="c-person"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-g2" style="endArrow=block;endFill=0;endSize=14;strokeColor=#1b7a43;" edge="1" parent="1" source="c-mstaff" target="c-person"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-g3" style="endArrow=block;endFill=0;endSize=14;strokeColor=#1b7a43;" edge="1" parent="1" source="c-doctor" target="c-mstaff"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-g4" style="endArrow=block;endFill=0;endSize=14;strokeColor=#1b7a43;" edge="1" parent="1" source="c-nurse" target="c-mstaff"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-comp1" value="1 владеет  1..*" style="endArrow=none;startArrow=diamondThin;startFill=1;startSize=18;strokeColor=#1f5fa8;fontSize=11;" edge="1" parent="1" source="c-hospital" target="c-dept"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-comp2" value="1 владеет  0..1" style="endArrow=none;startArrow=diamondThin;startFill=1;startSize=18;strokeColor=#1b7a43;fontSize=11;" edge="1" parent="1" source="c-patient" target="c-card"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-agg1" value="1 закреплён  1..*" style="endArrow=none;startArrow=diamondThin;startFill=0;startSize=18;strokeColor=#1f5fa8;fontSize=11;" edge="1" parent="1" source="c-dept" target="c-mstaff"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-as1" value="1 записывается  0..*" style="endArrow=none;strokeColor=#1c2733;fontSize=11;" edge="1" parent="1" source="c-patient" target="c-appt"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-as2" value="1 проводит  0..*" style="endArrow=none;strokeColor=#1c2733;fontSize=11;" edge="1" parent="1" source="c-doctor" target="c-appt"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-as3" value="0..1 фиксируется  0..*" style="endArrow=none;strokeColor=#1c2733;fontSize=11;" edge="1" parent="1" source="c-card" target="c-appt"><mxGeometry relative="1" as="geometry" /></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

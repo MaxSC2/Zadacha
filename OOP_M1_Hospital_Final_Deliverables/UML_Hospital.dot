@@ -1,0 +1,102 @@
+digraph HospitalUML {
+    graph [rankdir=LR, splines=ortho, nodesep=0.7, ranksep=1.0,
+           pad=0.35, margin=0.05, bgcolor="white",
+           fontname="DejaVu Sans", fontsize=16,
+           label="Объектная модель учета пациентов и медицинских приемов в больнице",
+           labelloc=t, labeljust=c];
+    node [shape=plain, fontname="DejaVu Sans"];
+    edge [fontname="DejaVu Sans", fontsize=10, color="#4b5563", penwidth=1.4];
+
+    Person [label=<
+      <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7">
+        <TR><TD BGCOLOR="#D7F5E5"><B>Person</B><BR/><FONT POINT-SIZE="10">общие данные человека</FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">_full_name: str<BR/>_birth_date: date<BR/>_phone: str</TD></TR>
+        <TR><TD ALIGN="LEFT">full_name: str<BR/>get_age()<BR/>get_contacts()</TD></TR>
+      </TABLE>>];
+
+    Patient [label=<
+      <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7">
+        <TR><TD BGCOLOR="#D7F5E5"><B>Patient</B><BR/><FONT POINT-SIZE="10">пациент</FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">_insurance_no: str<BR/>_card: MedicalCard</TD></TR>
+        <TR><TD ALIGN="LEFT">insurance_no: str<BR/>card: MedicalCard<BR/>issue_card(number, date)<BR/>make_appointment(doctor, when)<BR/>cancel_appointment(appt, reason)<BR/>get_history()</TD></TR>
+      </TABLE>>];
+
+    MedicalStaff [label=<
+      <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7">
+        <TR><TD BGCOLOR="#D7F5E5"><B>MedicalStaff</B><BR/><FONT POINT-SIZE="10">общий базовый класс персонала</FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">_staff_no: str<BR/>_experience: int</TD></TR>
+        <TR><TD ALIGN="LEFT">get_info()</TD></TR>
+      </TABLE>>];
+
+    Doctor [label=<
+      <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7">
+        <TR><TD BGCOLOR="#D7F5E5"><B>Doctor</B><BR/><FONT POINT-SIZE="10">врач</FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">_specialty: str<BR/>_category: str<BR/>_appointments: list</TD></TR>
+        <TR><TD ALIGN="LEFT">specialty: str<BR/>get_info()<BR/>conduct_appointment(appt, diagnosis, prescription)<BR/>appointments: tuple</TD></TR>
+      </TABLE>>];
+
+    Nurse [label=<
+      <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7">
+        <TR><TD BGCOLOR="#D7F5E5"><B>Nurse</B><BR/><FONT POINT-SIZE="10">медсестра</FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">_profile: str<BR/>_shift: str</TD></TR>
+        <TR><TD ALIGN="LEFT">get_info()<BR/>prepare_room(department)<BR/>escort_patient(patient)</TD></TR>
+      </TABLE>>];
+
+    Hospital [label=<
+      <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7">
+        <TR><TD BGCOLOR="#DCE8FF"><B>Hospital</B><BR/><FONT POINT-SIZE="10">больница</FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">_name: str<BR/>_address: str<BR/>_departments: list</TD></TR>
+        <TR><TD ALIGN="LEFT">name: str<BR/>add_department(name, location)<BR/>find_doctors(specialty)<BR/>get_statistics()</TD></TR>
+      </TABLE>>];
+
+    Department [label=<
+      <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7">
+        <TR><TD BGCOLOR="#DCE8FF"><B>Department</B><BR/><FONT POINT-SIZE="10">отделение</FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">_name: str<BR/>_location: str<BR/>_staff: list</TD></TR>
+        <TR><TD ALIGN="LEFT">name: str<BR/>location: str<BR/>attach_staff(person)<BR/>schedule()<BR/>staff: tuple</TD></TR>
+      </TABLE>>];
+
+    MedicalCard [label=<
+      <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7">
+        <TR><TD BGCOLOR="#FFF0CC"><B>MedicalCard</B><BR/><FONT POINT-SIZE="10">медицинская карта</FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">_number: str<BR/>_issue_date: date<BR/>_records: list</TD></TR>
+        <TR><TD ALIGN="LEFT">number: str<BR/>add_record(appointment)<BR/>get_history()</TD></TR>
+      </TABLE>>];
+
+    Appointment [label=<
+      <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7">
+        <TR><TD BGCOLOR="#FFF0CC"><B>Appointment</B><BR/><FONT POINT-SIZE="10">медицинский прием</FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">_when: datetime<BR/>_patient: Patient<BR/>_doctor: Doctor<BR/>_status: str<BR/>_diagnosis: str / None<BR/>_prescription: str / None</TD></TR>
+        <TR><TD ALIGN="LEFT">reschedule(new_when)<BR/>complete(diagnosis, prescription)<BR/>cancel(reason)<BR/>describe()</TD></TR>
+      </TABLE>>];
+
+    // Generalization
+    Patient -> Person [color="#159957", penwidth=2, arrowhead=onormal, label=" generalization "];
+    MedicalStaff -> Person [color="#159957", penwidth=2, arrowhead=onormal];
+    Doctor -> MedicalStaff [color="#159957", penwidth=2, arrowhead=onormal];
+    Nurse -> MedicalStaff [color="#159957", penwidth=2, arrowhead=onormal];
+
+    // Composition
+    Hospital -> Department [dir=both, arrowtail=diamond, arrowhead=none, color="#d62f2f", penwidth=2,
+                           taillabel=" 1 ", headlabel=" 0..* ", label="  содержит "];
+    Patient -> MedicalCard [dir=both, arrowtail=diamond, arrowhead=none, color="#d62f2f", penwidth=2,
+                           taillabel=" 1 ", headlabel=" 1 ", label="  владеет "];
+
+    // Aggregation
+    Department -> MedicalStaff [dir=both, arrowtail=odiamond, arrowhead=none, color="#2563eb", penwidth=2,
+                               taillabel=" 0..* ", headlabel=" 1 ", label="  закрепляет "];
+
+    // Associations
+    Patient -> Appointment [dir=both, arrowhead=none, arrowtail=none, color="#4b5563", penwidth=1.5,
+                            taillabel=" 1 ", headlabel=" 0..* ", label="  записывается на "];
+    Doctor -> Appointment [dir=both, arrowhead=none, arrowtail=none, color="#4b5563", penwidth=1.5,
+                           taillabel=" 1 ", headlabel=" 0..* ", label="  проводит "];
+    MedicalCard -> Appointment [dir=both, arrowhead=none, arrowtail=none, color="#4b5563", penwidth=1.5,
+                                taillabel=" 1 ", headlabel=" 0..* ", label="  фиксирует "];
+
+    // Layout hints for three zones
+    {rank=same; Person; Hospital;}
+    {rank=same; Patient; Department; MedicalStaff;}
+    {rank=same; MedicalCard; Doctor; Nurse;}
+    {rank=same; Appointment;}
+}
